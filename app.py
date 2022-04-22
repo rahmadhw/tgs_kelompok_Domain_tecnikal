@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 import joblib
 import numpy as np
 
@@ -13,7 +13,7 @@ def predik():
     if request.method == "GET":
         return render_template("index.html")
     elif request.method == "POST":
-        pred = [int(x) for x in request.form.values()]
+        pred = [float(x) for x in request.form.values()]
         final_pred =[np.array(pred)]
         model,std_scaler = joblib.load("Modelling/model_joblib/model_data_fix.pkl")
         result = model.predict(final_pred)
@@ -22,7 +22,6 @@ def predik():
         return render_template("index.html", result = output)
     else:
         return "Error"
-
 
 
 if __name__ == '__main__':
